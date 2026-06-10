@@ -21,5 +21,6 @@ jobs:
           config: >-
             p/javascript
             p/typescript
-            p/owasp-top-10
+            p/security-audit
+            p/secrets
         continue-on-error: true
