@@ -1,7 +1,7 @@
 FROM node:20-alpine AS build
 WORKDIR /app
-COPY package*.json ./
-COPY node_modules ./node_modules
+COPY package.json ./
+RUN npm install --registry https://registry.npmmirror.com --ignore-scripts
 COPY . .
 RUN npm run build
 
