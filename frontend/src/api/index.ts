@@ -2,32 +2,28 @@ import axios from 'axios'
 
 const http = axios.create({ baseURL: '/api' })
 
-export const clientsApi = {
-  getAll: (params?: object) => http.get('/clients', { params }).then(r => r.data),
-  create: (data: object) => http.post('/clients', data).then(r => r.data),
-  update: (id: number, data: object) => http.put(`/clients/${id}`, data).then(r => r.data),
-  remove: (id: number) => http.delete(`/clients/${id}`).then(r => r.data),
+http.interceptors.request.use(cfg => {
+  const token = localStorage.getItem('clinic_token')
+  if (token) cfg.headers.Authorization = `Bearer ${token}`
+  return cfg
+})
+
+export const authApi = {
+  register: (data: object) => http.post('/auth/register', data).then(r => r.data),
+  login: (data: object) => http.post('/auth/login', data).then(r => r.data),
+  me: () => http.get('/auth/me').then(r => r.data),
 }
 
-export const dealsApi = {
-  getAll: (params?: object) => http.get('/deals', { params }).then(r => r.data),
-  getStats: () => http.get('/deals/stats').then(r => r.data),
-  create: (data: object) => http.post('/deals', data).then(r => r.data),
-  update: (id: number, data: object) => http.put(`/deals/${id}`, data).then(r => r.data),
-  remove: (id: number) => http.delete(`/deals/${id}`).then(r => r.data),
+export const doctorsApi = {
+  getAll: (params?: object) => http.get('/doctors', { params }).then(r => r.data),
+  getSlots: (id: number) => http.get(`/doctors/${id}/slots`).then(r => r.data),
 }
 
-export const tasksApi = {
-  getAll: (params?: object) => http.get('/tasks', { params }).then(r => r.data),
-  create: (data: object) => http.post('/tasks', data).then(r => r.data),
-  update: (id: number, data: object) => http.put(`/tasks/${id}`, data).then(r => r.data),
-  complete: (id: number) => http.patch(`/tasks/${id}/complete`).then(r => r.data),
-  remove: (id: number) => http.delete(`/tasks/${id}`).then(r => r.data),
+export const symptomsApi = {
+  getAll: () => http.get('/symptoms').then(r => r.data),
 }
 
-export const usersApi = {
-  getAll: () => http.get('/users').then(r => r.data),
-  create: (data: object) => http.post('/users', data).then(r => r.data),
-  update: (id: number, data: object) => http.put(`/users/${id}`, data).then(r => r.data),
-  remove: (id: number) => http.delete(`/users/${id}`).then(r => r.data),
+export const appointmentsApi = {
+  create: (data: object) => http.post('/appointments', data).then(r => r.data),
+  getMy: () => http.get('/appointments/my').then(r => r.data),
 }

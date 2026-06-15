@@ -1,57 +1,52 @@
 export interface User {
   id: number
-  name: string
   email: string
-  role: string
-  created_at: string
+  full_name: string
+  phone?: string
+  role: 'patient' | 'admin'
 }
 
-export interface Client {
+export interface Symptom {
   id: number
   name: string
+  icon: string
+}
+
+export interface Slot {
+  id: number
+  doctor_id: number
+  starts_at: string
+  ends_at: string
+  is_booked: boolean
+}
+
+export interface Doctor {
+  id: number
+  first_name: string
+  last_name: string
+  specialization: string
+  bio?: string
+  photo_url?: string
+  experience_years: number
+  price: number
+  rating: number
+  reviews_count: number
   email?: string
   phone?: string
-  company?: string
-  status: 'lead' | 'active' | 'inactive'
-  assigned_to?: number | null
-  assigned_name?: string
-  notes?: string | null
-  created_at: string
-  updated_at: string
+  symptoms: Symptom[]
+  slots?: Slot[]
 }
 
-export interface Deal {
+export interface Appointment {
   id: number
-  title: string
-  client_id?: number | null
-  client_name?: string
-  amount: string | number
-  stage: 'new' | 'negotiation' | 'won' | 'lost'
-  assigned_to?: number | null
-  assigned_name?: string
-  notes?: string | null
+  doctor_id: number
+  doctor_name: string
+  specialization: string
+  photo_url?: string
+  slot_id: number
+  starts_at: string
+  ends_at: string
+  status: 'confirmed' | 'completed' | 'cancelled'
+  notes?: string
   created_at: string
-  updated_at: string
-}
-
-export interface Task {
-  id: number
-  title: string
-  description?: string | null
-  client_id?: number | null
-  client_name?: string
-  deal_id?: number | null
-  deal_title?: string
-  assigned_to?: number | null
-  assigned_name?: string
-  due_date?: string | null
-  completed: boolean
-  created_at: string
-  updated_at: string
-}
-
-export interface DealStats {
-  stage: string
-  count: string
-  total_amount: string
 }
