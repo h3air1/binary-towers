@@ -72,7 +72,7 @@ export function BookingModal({ doctor, slot, onClose, onBooked }: Props) {
                 </div>
                 <div className="success-detail-row">
                   <span>Стоимость</span>
-                  <b>{doctor.price.toLocaleString('ru-RU')} ₸</b>
+                  <b>{doctor.price.toLocaleString('ru-RU')} ₽</b>
                 </div>
               </div>
             </div>
@@ -97,7 +97,7 @@ export function BookingModal({ doctor, slot, onClose, onBooked }: Props) {
                 </div>
                 <div className="success-detail-row">
                   <span>Стоимость</span>
-                  <b>{doctor.price.toLocaleString('ru-RU')} ₸</b>
+                  <b>{doctor.price.toLocaleString('ru-RU')} ₽</b>
                 </div>
               </div>
               <div className="form-group">

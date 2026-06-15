@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { AuthModal } from './AuthModal'
-
-type Page = 'home' | 'doctors' | 'cabinet'
+import type { Page } from '../App'
 
 interface Props {
   page: Page
@@ -12,6 +11,15 @@ interface Props {
 export function Header({ page, setPage }: Props) {
   const { user, logout } = useAuth()
   const [showAuth, setShowAuth] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  const nav: { label: string; page: Page }[] = [
+    { label: 'Главная', page: 'home' },
+    { label: 'О нас', page: 'about' },
+    { label: 'Услуги', page: 'services' },
+    { label: 'Врачи', page: 'doctors' },
+    { label: 'Контакты', page: 'contacts' },
+  ]
 
   return (
     <>
@@ -27,9 +35,16 @@ export function Header({ page, setPage }: Props) {
           </button>
 
           <nav className="header-nav">
-            <button className={`nav-link ${page === 'home' ? 'active' : ''}`} onClick={() => setPage('home')}>Главная</button>
-            <button className={`nav-link ${page === 'doctors' ? 'active' : ''}`} onClick={() => setPage('doctors')}>Врачи</button>
-            {user && <button className={`nav-link ${page === 'cabinet' ? 'active' : ''}`} onClick={() => setPage('cabinet')}>Мой кабинет</button>}
+            {nav.map(n => (
+              <button key={n.page} className={`nav-link ${page === n.page ? 'active' : ''}`} onClick={() => setPage(n.page)}>
+                {n.label}
+              </button>
+            ))}
+            {user && (
+              <button className={`nav-link ${page === 'cabinet' ? 'active' : ''}`} onClick={() => setPage('cabinet')}>
+                Мой кабинет
+              </button>
+            )}
           </nav>
 
           <div className="header-right">
@@ -49,8 +64,37 @@ export function Header({ page, setPage }: Props) {
                 <button className="btn btn-primary btn-sm" onClick={() => setShowAuth(true)}>Записаться</button>
               </>
             )}
+            <button className="burger" onClick={() => setMenuOpen(v => !v)}>
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                {menuOpen
+                  ? <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  : <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />}
+              </svg>
+            </button>
           </div>
         </div>
+
+        {menuOpen && (
+          <div className="mobile-menu">
+            {nav.map(n => (
+              <button key={n.page} className={`mobile-nav-link ${page === n.page ? 'active' : ''}`}
+                onClick={() => { setPage(n.page); setMenuOpen(false) }}>
+                {n.label}
+              </button>
+            ))}
+            {user && (
+              <button className={`mobile-nav-link ${page === 'cabinet' ? 'active' : ''}`}
+                onClick={() => { setPage('cabinet'); setMenuOpen(false) }}>
+                Мой кабинет
+              </button>
+            )}
+            {!user && (
+              <button className="mobile-nav-link" onClick={() => { setShowAuth(true); setMenuOpen(false) }}>
+                Войти / Зарегистрироваться
+              </button>
+            )}
+          </div>
+        )}
       </header>
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
     </>

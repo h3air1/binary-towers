@@ -56,7 +56,7 @@ function DoctorCard({ doctor: d, slots, onBook }: { doctor: Doctor; slots: Slot[
       </div>
       <div className="doctor-card-footer">
         <div className="doctor-price">
-          {d.price.toLocaleString('ru-RU')} ₸<span> / приём</span>
+          {d.price.toLocaleString('ru-RU')} ₽<span> / приём</span>
         </div>
         <button
           className={`btn btn-sm ${selSlot ? 'btn-primary' : 'btn-outline'}`}
