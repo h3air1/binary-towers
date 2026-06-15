@@ -12,10 +12,10 @@
   --ink-2: #344c63;
   --muted: #6b7f94;
   --muted-2: #a0b0bf;
-  --bg: #f4f7fc;
+  --bg: #f4f7f9;
   --surface: #ffffff;
-  --line: #e0e8f0;
-  --line-2: #edf2f7;
+  --line: #e2e8ed;
+  --line-2: #eef1f4;
   --green: #16a34a;
   --green-l: #dcfce7;
   --red: #dc2626;
@@ -25,8 +25,8 @@
   --radius: 16px;
   --radius-sm: 10px;
   --radius-xs: 7px;
-  --shadow: 0 1px 3px rgba(15,33,55,.06), 0 8px 32px -8px rgba(15,33,55,.12);
-  --shadow-lg: 0 20px 60px -16px rgba(15,33,55,.22);
+  --shadow: 0 1px 3px rgba(15,33,55,.05), 0 8px 28px -6px rgba(15,33,55,.10);
+  --shadow-lg: 0 20px 60px -12px rgba(15,33,55,.18);
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 15px;
   color: var(--ink);
@@ -240,7 +240,7 @@ img { display: block; }
 .doctor-slots {
   padding: 16px 24px;
   border-top: 1px solid var(--line-2);
-  background: #fafcff;
+  background: #f9fafb;
 }
 .slots-label { font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: .5px; }
 .slots-row { display: flex; gap: 8px; flex-wrap: wrap; }
