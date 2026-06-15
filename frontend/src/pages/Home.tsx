@@ -7,9 +7,6 @@ type Page = 'home' | 'doctors' | 'cabinet'
 
 interface Props { setPage: (p: Page) => void }
 
-const fmtTime = (iso: string) => new Date(iso).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
-const fmtDate = (iso: string) => new Date(iso).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' })
-
 export function Home({ setPage }: Props) {
   const [symptoms, setSymptoms] = useState<Symptom[]>([])
   const [selected, setSelected] = useState<number[]>([])
@@ -36,8 +33,6 @@ export function Home({ setPage }: Props) {
     } finally {
       setLoading(false) }
   }
-
-  const initials = (d: Doctor) => d.first_name[0] + d.last_name[0]
 
   return (
     <>
