@@ -82,7 +82,7 @@ export function Doctors() {
   const load = async () => {
     setLoading(true)
     const params = filterSymptom ? { symptoms: filterSymptom } : {}
-    const docs: Doctor[] = await doctorsApi.getAll(params)
+    const { doctors: docs } = await doctorsApi.getAll(params)
     setDoctors(docs)
     const slotResults = await Promise.all(docs.map(d => doctorsApi.getSlots(d.id).then(s => [d.id, s] as [number, Slot[]])))
     setDocSlots(Object.fromEntries(slotResults))
@@ -129,8 +129,8 @@ export function Doctors() {
         ) : visible.length === 0 ? (
           <div className="empty">
             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            <h4>Врачи не найдены</h4>
-            <p>Попробуйте изменить фильтры</p>
+            <h4>К сожалению, специалистов по данному запросу сейчас нет</h4>
+            <p>Попробуйте выбрать другой симптом или сбросить фильтр</p>
           </div>
         ) : (
           <div className="doctor-grid">

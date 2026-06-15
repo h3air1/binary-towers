@@ -167,6 +167,7 @@ export function Home({ setPage }: Props) {
   const [searched, setSearched] = useState(false)
   const [loading, setLoading] = useState(false)
   const [noSymptomHint, setNoSymptomHint] = useState(false)
+  const [searchMsg, setSearchMsg] = useState<'ok' | 'no_results' | 'no_mapping'>('ok')
   const [booking, setBooking] = useState<{ doctor: Doctor; slot: Slot } | null>(null)
 
   useEffect(() => { symptomsApi.getAll().then(setSymptoms) }, [])
@@ -182,7 +183,8 @@ export function Home({ setPage }: Props) {
     setSearched(true)
     setNoSymptomHint(false)
     try {
-      const docs: Doctor[] = await doctorsApi.getAll({ symptoms: selected.join(',') })
+      const { doctors: docs, message } = await doctorsApi.getAll({ symptoms: selected.join(',') })
+      setSearchMsg(message)
       const limited = docs.slice(0, 4)
       setDoctors(limited)
       const slotResults = await Promise.all(limited.map(d => doctorsApi.getSlots(d.id).then(s => [d.id, s] as [number, Slot[]])))
@@ -276,8 +278,8 @@ export function Home({ setPage }: Props) {
             ) : doctors.length === 0 ? (
               <div className="empty">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                <h4>Врачи не найдены</h4>
-                <p>Попробуйте выбрать другие симптомы</p>
+                <h4>К сожалению, специалистов по данному запросу сейчас нет</h4>
+                <p>{searchMsg === 'no_mapping' ? 'По выбранным симптомам нет подходящей специализации' : 'Попробуйте выбрать другие симптомы'}</p>
               </div>
             ) : (
               <div className="doctor-grid">

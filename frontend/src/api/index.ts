@@ -15,9 +15,11 @@ export const authApi = {
 }
 
 export const doctorsApi = {
-  getAll: (params?: object) => http.get('/doctors', { params }).then(r => r.data),
+  getAll: (params?: object) => http.get('/doctors', { params }).then(r => r.data as DoctorsResponse),
   getSlots: (id: number) => http.get(`/doctors/${id}/slots`).then(r => r.data),
 }
+
+interface DoctorsResponse { doctors: import('../types').Doctor[]; message: 'ok' | 'no_results' | 'no_mapping' }
 
 export const symptomsApi = {
   getAll: () => http.get('/symptoms').then(r => r.data),

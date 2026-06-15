@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const db = require('../db')
 const { adminMiddleware } = require('../middleware/auth')
+const { getSpecsForSymptoms } = require('../config/symptomMap')
 
 router.get('/', async (req, res) => {
   try {
@@ -19,16 +20,26 @@ router.get('/', async (req, res) => {
     if (symptoms) {
       const ids = symptoms.split(',').map(Number).filter(Boolean)
       if (ids.length) {
-        params.push(ids)
-        query += ` WHERE d.id IN (
-          SELECT doctor_id FROM doctor_symptoms WHERE symptom_id = ANY($1)
-        )`
+        // Resolve symptom names from DB
+        const nameRes = await db.query('SELECT name FROM symptoms WHERE id = ANY($1)', [ids])
+        const names = nameRes.rows.map(r => r.name)
+
+        // Map symptom names → specializations via config
+        const specs = getSpecsForSymptoms(names)
+
+        if (specs.length === 0) {
+          // No mapping found for these symptoms → return empty with a hint
+          return res.json({ doctors: [], message: 'no_mapping' })
+        }
+
+        params.push(specs)
+        query += ' WHERE d.specialization = ANY($1)'
       }
     }
 
     query += ' GROUP BY d.id ORDER BY d.rating DESC'
     const r = await db.query(query, params)
-    res.json(r.rows)
+    res.json({ doctors: r.rows, message: r.rows.length === 0 ? 'no_results' : 'ok' })
   } catch (err) {
     console.error(err)
     res.status(500).json({ error: 'Internal server error' })
