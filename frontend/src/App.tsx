@@ -37,8 +37,13 @@ function AppContent() {
         <div className="footer-inner">
           <div className="footer-brand">
             <div className="footer-logo">
-              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="9.5" y="2"   width="5" height="5" rx="1.2" fill="white"/>
+                <rect x="2"   y="9.5" width="5" height="5" rx="1.2" fill="white"/>
+                <rect x="9.5" y="9.5" width="5" height="5" rx="1.2" fill="white"/>
+                <rect x="17"  y="9.5" width="5" height="5" rx="1.2" fill="white"/>
+                <rect x="9.5" y="17"  width="5" height="5" rx="1.2" fill="white"/>
+                <rect x="17"  y="2"   width="5" height="5" rx="1.2" fill="white" fillOpacity="0.3"/>
               </svg>
             </div>
             <span className="footer-copy">© 2026 BinaryClinic — Медицинский центр, Грозный</span>

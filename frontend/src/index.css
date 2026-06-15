@@ -12,10 +12,10 @@
   --ink-2: #344c63;
   --muted: #6b7f94;
   --muted-2: #a0b0bf;
-  --bg: #f4f7f9;
+  --bg: #edf2f7;
   --surface: #ffffff;
-  --line: #e2e8ed;
-  --line-2: #eef1f4;
+  --line: #dde4eb;
+  --line-2: #eaeff4;
   --green: #16a34a;
   --green-l: #dcfce7;
   --red: #dc2626;
@@ -34,8 +34,8 @@
   -webkit-font-smoothing: antialiased;
 }
 
-body { min-height: 100vh; }
-#root { min-height: 100vh; display: flex; flex-direction: column; }
+html, body { min-height: 100vh; background: var(--bg); }
+#root { min-height: 100vh; display: flex; flex-direction: column; background: var(--bg); }
 h1, h2, h3, h4 { font-family: 'Bricolage Grotesque', sans-serif; letter-spacing: -.02em; }
 button { cursor: pointer; font: inherit; }
 input, select, textarea { font: inherit; }
@@ -108,7 +108,7 @@ img { display: block; }
 .page { flex: 1; padding: 48px 0; }
 .page-hero {
   text-align: center; padding: 80px 24px 56px;
-  background: linear-gradient(160deg, #fff 0%, var(--bg) 100%);
+  background: linear-gradient(160deg, var(--bg) 0%, #e2eaf4 100%);
   border-bottom: 1px solid var(--line);
   position: relative; overflow: hidden;
 }
