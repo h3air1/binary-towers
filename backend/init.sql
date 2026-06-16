@@ -107,20 +107,26 @@ INSERT INTO doctor_symptoms (doctor_id, symptom_id) VALUES
   (6, 7)
 ON CONFLICT DO NOTHING;
 
--- Seed: slots (next 7 days, 3 slots per doctor per day)
+-- Seed: slots (next 10 days, 12:00–18:00 Moscow time / Europe/Moscow = UTC+3)
+-- Each slot is 60 min. Last slot starts 18:00 MSK, ends 19:00 MSK.
+-- Stored as UTC: AT TIME ZONE 'Europe/Moscow' → AT TIME ZONE 'UTC' makes it timezone-safe.
 DO $$
 DECLARE
-  d INT;
+  d          INT;
   day_offset INT;
-  hour_val INT;
+  hour_msk   INT;
   slot_start TIMESTAMP;
 BEGIN
   FOR d IN 1..6 LOOP
-    FOR day_offset IN 1..7 LOOP
-      FOREACH hour_val IN ARRAY ARRAY[9, 11, 14] LOOP
-        slot_start := DATE_TRUNC('day', NOW()) + (day_offset || ' days')::INTERVAL + (hour_val || ' hours')::INTERVAL;
+    FOR day_offset IN 1..10 LOOP
+      FOREACH hour_msk IN ARRAY ARRAY[12,13,14,15,16,17,18] LOOP
+        slot_start := (
+          DATE_TRUNC('day', NOW() AT TIME ZONE 'Europe/Moscow')
+          + (day_offset || ' days')::INTERVAL
+          + (hour_msk   || ' hours')::INTERVAL
+        ) AT TIME ZONE 'Europe/Moscow' AT TIME ZONE 'UTC';
         INSERT INTO slots (doctor_id, starts_at, ends_at)
-        VALUES (d, slot_start, slot_start + INTERVAL '30 minutes')
+        VALUES (d, slot_start, slot_start + INTERVAL '60 minutes')
         ON CONFLICT DO NOTHING;
       END LOOP;
     END LOOP;

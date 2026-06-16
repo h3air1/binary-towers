@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { symptomsApi, doctorsApi } from '../api'
 import type { Doctor, Slot, Symptom } from '../types'
 import { BookingModal } from '../components/BookingModal'
-import type { Page } from '../App'
-
-interface Props { setPage: (p: Page) => void }
 
 function SymptomIcon({ name }: { name: string }) {
   const s = (d: string) => (
@@ -159,7 +157,8 @@ function DoctorCard({ doctor: d, slots, onBook }: { doctor: Doctor; slots: Slot[
   )
 }
 
-export function Home({ setPage }: Props) {
+export function Home() {
+  const navigate = useNavigate()
   const [symptoms, setSymptoms] = useState<Symptom[]>([])
   const [selected, setSelected] = useState<number[]>([])
   const [doctors, setDoctors] = useState<Doctor[]>([])
@@ -270,7 +269,7 @@ export function Home({ setPage }: Props) {
                 <h2>Подходящие специалисты</h2>
                 <p>Найдено {doctors.length} специалист(а) по выбранным симптомам</p>
               </div>
-              <button className="btn btn-outline btn-sm" onClick={() => setPage('doctors')}>Все врачи →</button>
+              <button className="btn btn-outline btn-sm" onClick={() => navigate('/doctors')}>Все врачи →</button>
             </div>
 
             {loading ? (
@@ -336,10 +335,10 @@ export function Home({ setPage }: Props) {
                   <p>Запись занимает 2 минуты. Без звонков и очередей.</p>
                 </div>
                 <div style={{ display: 'flex', gap: 12, flexShrink: 0 }}>
-                  <button className="btn btn-primary btn-lg" onClick={() => setPage('doctors')}>
+                  <button className="btn btn-primary btn-lg" onClick={() => navigate('/doctors')}>
                     Записаться к врачу
                   </button>
-                  <button className="btn btn-outline btn-lg" onClick={() => setPage('contacts')} style={{ background: 'rgba(255,255,255,.1)', borderColor: 'rgba(255,255,255,.3)', color: '#fff' }}>
+                  <button className="btn btn-outline btn-lg" onClick={() => navigate('/contacts')} style={{ background: 'rgba(255,255,255,.1)', borderColor: 'rgba(255,255,255,.3)', color: '#fff' }}>
                     Связаться с нами
                   </button>
                 </div>
