@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Navigate } from 'react-router-dom'
 import { appointmentsApi } from '../api'
 import { useAuth } from '../context/AuthContext'
 import type { Appointment } from '../types'
@@ -25,7 +26,7 @@ export function Cabinet() {
 
   const list = tab === 'upcoming' ? upcoming : past
 
-  if (!user) return null
+  if (!user) return <Navigate to="/" replace />
 
   return (
     <div className="container">

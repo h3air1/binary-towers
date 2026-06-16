@@ -12,19 +12,19 @@
   --ink-2: #344c63;
   --muted: #6b7f94;
   --muted-2: #a0b0bf;
-  --bg: #edf2f7;
+  --bg: #f8f9fa;
   --surface: #ffffff;
-  --line: #dde4eb;
-  --line-2: #eaeff4;
+  --line: #e2e8ef;
+  --line-2: #edf2f7;
   --green: #16a34a;
   --green-l: #dcfce7;
   --red: #dc2626;
   --red-l: #fee2e2;
   --yellow: #d97706;
   --yellow-l: #fef3c7;
-  --radius: 16px;
-  --radius-sm: 10px;
-  --radius-xs: 7px;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-xs: 6px;
   --shadow: 0 1px 3px rgba(15,33,55,.05), 0 8px 28px -6px rgba(15,33,55,.10);
   --shadow-lg: 0 20px 60px -12px rgba(15,33,55,.18);
   font-family: 'Inter', system-ui, sans-serif;
@@ -204,6 +204,9 @@ img { display: block; }
   display: flex; flex-direction: column;
 }
 .doctor-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+.doctor-bio { padding: 0 24px 14px; font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+.doctor-stars { display: inline-flex; align-items: center; gap: 2px; margin-bottom: 4px; }
+.doctor-rating-val { margin-left: 5px; font-size: 13px; font-weight: 600; color: var(--ink-2); }
 
 .doctor-card-top {
   padding: 24px; display: flex; gap: 16px; align-items: flex-start;
@@ -318,6 +321,59 @@ img { display: block; }
 .modal-close svg { width: 16px; height: 16px; }
 .modal-body { padding: 24px 28px; }
 .modal-footer { padding: 16px 28px 24px; display: flex; justify-content: flex-end; gap: 10px; }
+
+/* ── SLOT PICKER MODAL ── */
+.sp-modal { max-width: 540px; }
+.sp-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.sp-doc-row { display: flex; align-items: center; gap: 14px; }
+.sp-doc-avatar {
+  width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--primary-l), var(--mint-l));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 16px; color: var(--primary); overflow: hidden;
+  font-family: 'Bricolage Grotesque', sans-serif;
+}
+.sp-doc-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.sp-doc-name { font-size: 16px; font-weight: 700; color: var(--ink); }
+.sp-doc-meta { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.sp-sep { margin: 0 5px; }
+.sp-body { padding: 24px; }
+.sp-section-label { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; margin-bottom: 10px; }
+.sp-dates { display: flex; gap: 8px; flex-wrap: wrap; }
+.sp-date-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--line); background: var(--surface);
+  font-size: 13px; font-weight: 600; color: var(--ink-2);
+  cursor: pointer; transition: all .15s; white-space: nowrap;
+}
+.sp-date-btn:hover { border-color: var(--primary); color: var(--primary); }
+.sp-date-btn.active { border-color: var(--primary); background: var(--primary); color: #fff; }
+.sp-date-count {
+  font-size: 11px; font-weight: 700; padding: 1px 6px; border-radius: 20px;
+  background: rgba(255,255,255,.25);
+}
+.sp-date-btn:not(.active) .sp-date-count { background: var(--line); color: var(--muted); }
+.sp-time-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; }
+.sp-time-btn {
+  padding: 9px 6px; border-radius: var(--radius-xs);
+  border: 1.5px solid var(--line); background: var(--surface);
+  font-size: 14px; font-weight: 600; color: var(--ink-2); text-align: center;
+  cursor: pointer; transition: all .15s;
+}
+.sp-time-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-l); }
+.sp-time-btn.active { border-color: var(--primary); background: var(--primary); color: #fff; }
+.sp-confirm { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line-2); }
+.sp-selected-info {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 13px; font-weight: 600; color: var(--primary);
+  background: var(--primary-l); padding: 10px 14px; border-radius: var(--radius-xs);
+}
+.sp-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
 
 /* ── SUCCESS STATE ── */
 .success-state {
@@ -685,4 +741,181 @@ img { display: block; }
   .services-grid { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: 1fr; }
   .footer-links { display: none; }
+  .bk-service-grid { grid-template-columns: 1fr; }
+  .bk-date-tabs { flex-wrap: wrap; }
+  .bk-success { padding: 48px 24px; }
 }
+
+/* ── BOOKING ── */
+.bk-page { padding: 48px 0 80px; max-width: 760px; margin: 0 auto; }
+.bk-header { text-align: center; margin-bottom: 36px; }
+.bk-title { font-size: 32px; font-weight: 800; color: var(--ink); margin-bottom: 8px; }
+.bk-subtitle { color: var(--muted); font-size: 15px; }
+
+/* Step indicator */
+.bk-step-indicator { margin-bottom: 32px; }
+.bk-bar-wrap {
+  height: 4px; background: var(--line); border-radius: 99px;
+  margin-bottom: 20px; overflow: hidden;
+}
+.bk-bar-fill {
+  height: 100%; background: linear-gradient(90deg, var(--primary), var(--mint));
+  border-radius: 99px; transition: width .4s ease;
+}
+.bk-step-list {
+  display: flex; justify-content: space-between;
+}
+.bk-step {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  flex: 1; position: relative;
+}
+.bk-step-circle {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 2px solid var(--line); background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: var(--muted);
+  transition: all .2s;
+}
+.bk-step.is-active .bk-step-circle {
+  border-color: var(--primary); background: var(--primary); color: #fff;
+}
+.bk-step.is-done .bk-step-circle {
+  border-color: var(--mint); background: var(--mint); color: #fff;
+}
+.bk-step-label { font-size: 12px; color: var(--muted); font-weight: 500; }
+.bk-step.is-active .bk-step-label { color: var(--primary); font-weight: 600; }
+.bk-step.is-done .bk-step-label { color: var(--mint); }
+
+/* Card container */
+.bk-card {
+  background: var(--surface); border-radius: var(--radius);
+  border: 1px solid var(--line); padding: 36px;
+  box-shadow: var(--shadow);
+}
+.bk-step-title { font-size: 22px; font-weight: 800; color: var(--ink); margin-bottom: 4px; font-family: 'Bricolage Grotesque', sans-serif; }
+.bk-step-sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+
+/* Nav buttons */
+.bk-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line-2); }
+
+/* Step 1 – Services */
+.bk-service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.bk-service-card {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 18px; border-radius: var(--radius-sm);
+  border: 2px solid var(--line); background: var(--surface);
+  text-align: left; cursor: pointer; position: relative;
+  transition: border-color .15s, box-shadow .15s, transform .1s;
+}
+.bk-service-card:hover { border-color: var(--primary); box-shadow: var(--shadow); transform: translateY(-1px); }
+.bk-service-card.selected { border-color: var(--primary); background: var(--primary-l); }
+.bk-service-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 5px;
+}
+.bk-service-body { flex: 1; }
+.bk-service-name { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.bk-service-desc { font-size: 12.5px; color: var(--muted); line-height: 1.4; margin-bottom: 10px; }
+.bk-service-meta { display: flex; gap: 6px; flex-wrap: wrap; }
+.bk-tag {
+  font-size: 11.5px; font-weight: 600; color: var(--primary);
+  background: var(--primary-l); padding: 3px 8px; border-radius: 20px;
+}
+.bk-check {
+  position: absolute; top: 12px; right: 12px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--primary); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Step 2 – Doctors */
+.bk-doctor-list { display: flex; flex-direction: column; gap: 10px; }
+.bk-doctor-card {
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px 20px; border-radius: var(--radius-sm);
+  border: 2px solid var(--line); background: var(--surface);
+  text-align: left; cursor: pointer; position: relative;
+  transition: border-color .15s, box-shadow .15s;
+}
+.bk-doctor-card:hover { border-color: var(--primary); box-shadow: var(--shadow); }
+.bk-doctor-card.selected { border-color: var(--primary); background: var(--primary-l); }
+.bk-doctor-avatar {
+  width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--primary), var(--mint));
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 800; font-size: 16px; overflow: hidden;
+}
+.bk-doctor-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.bk-doctor-info { flex: 1; }
+.bk-doctor-name { font-size: 15px; font-weight: 700; color: var(--ink); }
+.bk-doctor-spec { font-size: 12.5px; color: var(--mint); font-weight: 600; margin-bottom: 4px; }
+.bk-stars { display: inline-flex; align-items: center; gap: 1px; margin-bottom: 4px; }
+.bk-doctor-meta { font-size: 12.5px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.bk-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted-2); }
+
+/* Step 3 – DateTime */
+.bk-date-tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px; }
+.bk-date-tab {
+  display: flex; align-items: center; gap: 6px; white-space: nowrap;
+  padding: 8px 16px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--line); background: var(--surface);
+  font-size: 13.5px; font-weight: 600; color: var(--ink-2);
+  cursor: pointer; transition: all .15s; flex-shrink: 0;
+}
+.bk-date-tab:hover { border-color: var(--primary); color: var(--primary); }
+.bk-date-tab.active { border-color: var(--primary); background: var(--primary); color: #fff; }
+.bk-date-count {
+  font-size: 11px; font-weight: 700;
+  background: rgba(255,255,255,.25); padding: 1px 6px; border-radius: 10px;
+}
+.bk-date-tab:not(.active) .bk-date-count { background: var(--line); color: var(--muted); }
+.bk-time-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; margin-bottom: 16px; }
+.bk-time-slot {
+  padding: 10px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--line); background: var(--surface);
+  font-size: 14px; font-weight: 600; color: var(--ink-2);
+  cursor: pointer; transition: all .15s;
+}
+.bk-time-slot:hover { border-color: var(--primary); color: var(--primary); }
+.bk-time-slot.active { border-color: var(--primary); background: var(--primary); color: #fff; }
+.bk-selected-hint {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--primary); font-weight: 600;
+  background: var(--primary-l); padding: 10px 14px; border-radius: var(--radius-xs);
+}
+
+/* Step 4 – Patient */
+.bk-prefill-btn { margin-bottom: 20px; }
+.bk-form { display: flex; flex-direction: column; gap: 16px; }
+
+/* Breadcrumb */
+.bk-breadcrumb {
+  display: flex; align-items: center; gap: 6px; margin-top: 16px;
+  padding: 10px 16px; background: var(--surface); border-radius: var(--radius-xs);
+  border: 1px solid var(--line); font-size: 13px;
+}
+.bk-bc-item { color: var(--ink-2); font-weight: 500; }
+.bk-bc-sep { color: var(--muted-2); }
+
+/* Success screen */
+.bk-success {
+  max-width: 520px; margin: 60px auto; padding: 60px 48px;
+  background: var(--surface); border-radius: var(--radius);
+  border: 1px solid var(--line); box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+.bk-success-icon {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: #dcfce7; color: #16a34a; margin: 0 auto 24px;
+  display: flex; align-items: center; justify-content: center;
+}
+.bk-success-icon svg { width: 36px; height: 36px; }
+.bk-success h2 { font-size: 28px; margin-bottom: 10px; }
+.bk-success p { color: var(--muted); margin-bottom: 28px; line-height: 1.5; }
+.bk-success-summary {
+  background: var(--bg); border-radius: var(--radius-sm);
+  padding: 20px 24px; margin-bottom: 28px; text-align: left;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.bk-summary-row { display: flex; justify-content: space-between; font-size: 14px; }
+.bk-summary-row span:first-child { color: var(--muted); }
+.bk-summary-row span:last-child { font-weight: 600; color: var(--ink); }
